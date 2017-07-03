@@ -442,7 +442,7 @@
   }
 
   [feature = 'amenity_pub'][zoom >= 17] {
-    marker-file: url('symbols/amisha/pub.png');
+    marker-file: url('desi_symbols/pub.png');
     marker-fill: @amenity-brown;
     marker-placement: interior;
     marker-clip: false;

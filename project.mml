@@ -179,15 +179,6 @@ Layer:
     properties:
       minzoom: 8
       maxzoom: 11
-  - id: icesheet-poly
-    name: icesheet-poly
-    geometry: polygon
-    <<: *extents
-    Datasource:
-      file: data/antarctica-icesheet-polygons-3857/icesheet_polygons.shp
-      type: shape
-    properties:
-      minzoom: 4
   - id: water-areas
     name: water-areas
     geometry: polygon
@@ -241,15 +232,6 @@ Layer:
         ) AS landcover_area_symbols
     properties:
       minzoom: 10
-  - id: icesheet-outlines
-    name: icesheet-outlines
-    geometry: linestring
-    <<: *extents
-    Datasource:
-      file: data/antarctica-icesheet-outlines-3857/icesheet_outlines.shp
-      type: shape
-    properties:
-      minzoom: 4
   - id: water-lines
     name: water-lines
     class: water-lines

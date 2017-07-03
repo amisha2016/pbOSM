@@ -3487,22 +3487,6 @@
     </Datasource>
   </Layer>
 
-<Style name="icesheet-poly" filter-mode="first">
-  <Rule>
-    <MaxScaleDenominator>12500000</MaxScaleDenominator>
-    <PolygonSymbolizer fill="#ddecec" />
-  </Rule>
-</Style>
-<Layer name="icesheet-poly"
-  maximum-scale-denominator="50000000"
-  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
-    <StyleName>icesheet-poly</StyleName>
-    <Datasource>
-       <Parameter name="file"><![CDATA[data/antarctica-icesheet-polygons-3857/icesheet_polygons.shp]]></Parameter>
-       <Parameter name="type"><![CDATA[shape]]></Parameter>
-    </Datasource>
-  </Layer>
-
 <Style name="water-areas-landuse" filter-mode="first">
   <Rule>
     <MaxScaleDenominator>12500000</MaxScaleDenominator>
@@ -4362,52 +4346,6 @@
     AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
   ORDER BY COALESCE(layer,0), way_area DESC
 ) AS landcover_area_symbols]]></Parameter>
-    </Datasource>
-  </Layer>
-
-<Style name="icesheet-outlines" filter-mode="first">
-  <Rule>
-    <MaxScaleDenominator>750000</MaxScaleDenominator>
-    <Filter>([ice_edge] = 'ice_land')</Filter>
-    <LineSymbolizer stroke-dasharray="4, 2" stroke-width="0.75" stroke="#99ccff" />
-  </Rule>
-  <Rule>
-    <MaxScaleDenominator>3000000</MaxScaleDenominator>
-    <MinScaleDenominator>750000</MinScaleDenominator>
-    <Filter>([ice_edge] = 'ice_land')</Filter>
-    <LineSymbolizer stroke-width="0.5" stroke="#99ccff" />
-  </Rule>
-  <Rule>
-    <MaxScaleDenominator>12500000</MaxScaleDenominator>
-    <MinScaleDenominator>3000000</MinScaleDenominator>
-    <Filter>([ice_edge] = 'ice_land')</Filter>
-    <LineSymbolizer stroke-width="0.375" stroke="#99ccff" />
-  </Rule>
-  <Rule>
-    <MaxScaleDenominator>750000</MaxScaleDenominator>
-    <Filter>([ice_edge] = 'ice_ocean')</Filter>
-    <LineSymbolizer stroke-dasharray="4, 2" stroke-width="0.75" stroke="#99ccff" />
-  </Rule>
-  <Rule>
-    <MaxScaleDenominator>3000000</MaxScaleDenominator>
-    <MinScaleDenominator>750000</MinScaleDenominator>
-    <Filter>([ice_edge] = 'ice_ocean')</Filter>
-    <LineSymbolizer stroke-width="0.5" stroke="#99ccff" />
-  </Rule>
-  <Rule>
-    <MaxScaleDenominator>12500000</MaxScaleDenominator>
-    <MinScaleDenominator>3000000</MinScaleDenominator>
-    <Filter>([ice_edge] = 'ice_ocean')</Filter>
-    <LineSymbolizer stroke-width="0.375" stroke="#99ccff" />
-  </Rule>
-</Style>
-<Layer name="icesheet-outlines"
-  maximum-scale-denominator="50000000"
-  srs="+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over">
-    <StyleName>icesheet-outlines</StyleName>
-    <Datasource>
-       <Parameter name="file"><![CDATA[data/antarctica-icesheet-outlines-3857/icesheet_outlines.shp]]></Parameter>
-       <Parameter name="type"><![CDATA[shape]]></Parameter>
     </Datasource>
   </Layer>
 
@@ -26185,7 +26123,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
   <Rule>
     <MaxScaleDenominator>5000</MaxScaleDenominator>
     <Filter>([feature] = 'amenity_pub')</Filter>
-    <MarkersSymbolizer file="symbols/amisha/pub.png" fill="#734a08" placement="interior" clip="false" />
+    <MarkersSymbolizer file="desi_symbols/pub.png" fill="#734a08" placement="interior" clip="false" />
   </Rule>
   <Rule>
     <MaxScaleDenominator>5000</MaxScaleDenominator>
@@ -27532,7 +27470,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
   <Rule>
     <MaxScaleDenominator>5000</MaxScaleDenominator>
     <Filter>([feature] = 'amenity_pub')</Filter>
-    <MarkersSymbolizer file="symbols/amisha/pub.png" fill="#734a08" placement="interior" clip="false" />
+    <MarkersSymbolizer file="desi_symbols/pub.png" fill="#734a08" placement="interior" clip="false" />
   </Rule>
   <Rule>
     <MaxScaleDenominator>5000</MaxScaleDenominator>
