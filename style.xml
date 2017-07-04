@@ -24281,7 +24281,7 @@ SELECT
        <Parameter name="extent"><![CDATA[-20037508,-20037508,20037508,20037508]]></Parameter>
        <Parameter name="table"><![CDATA[(SELECT
     way,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     CASE
       WHEN (tags->'population' ~ '^[0-9]{1,8}$') THEN (tags->'population')::INTEGER ELSE 0
     END as population,
@@ -24321,7 +24321,7 @@ SELECT
        <Parameter name="table"><![CDATA[(SELECT
     way,
     way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     ref
   FROM planet_osm_polygon
   WHERE boundary = 'administrative'
@@ -24702,7 +24702,7 @@ SELECT
         osm_id,
         way,
         place,
-        name,
+        COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
         (
           (CASE
             WHEN (tags->'population' ~ '^[0-9]{1,8}$') THEN (tags->'population')::INTEGER
@@ -24850,7 +24850,7 @@ SELECT
        <Parameter name="table"><![CDATA[(SELECT
     way,
     place,
-    name
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name
   FROM planet_osm_point
   WHERE place IN ('village', 'hamlet')
      AND name IS NOT NULL
@@ -24973,7 +24973,7 @@ SELECT
        <Parameter name="extent"><![CDATA[-20037508,-20037508,20037508,20037508]]></Parameter>
        <Parameter name="table"><![CDATA[(SELECT
     way,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     ref,
     railway,
     aerialway,
@@ -25094,7 +25094,7 @@ SELECT
        <Parameter name="extent"><![CDATA[-20037508,-20037508,20037508,20037508]]></Parameter>
        <Parameter name="table"><![CDATA[(SELECT
     way,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     ref,
     railway,
     aerialway
@@ -28110,7 +28110,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
     highway,
     junction,
     ref,
-    name
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name
   FROM planet_osm_point
   WHERE highway = 'motorway_junction' OR highway = 'traffic_signals' OR junction = 'yes'
 ) AS junctions]]></Parameter>
@@ -28158,7 +28158,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
     way,
     way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
     man_made,
-    name
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name
   FROM planet_osm_polygon
   WHERE man_made = 'bridge'
 ) AS bridge_text]]></Parameter>
@@ -28379,7 +28379,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
     way,
     way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
     highway,
-    name
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name
   FROM planet_osm_polygon
   WHERE highway IN ('residential', 'unclassified', 'pedestrian', 'service', 'footway', 'cycleway', 'living_street', 'track', 'path', 'platform')
     OR railway IN ('platform')
@@ -29410,7 +29410,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
     CASE WHEN substr(highway, length(highway)-3, 4) = 'link' THEN substr(highway, 0, length(highway)-4) ELSE highway END,
     CASE WHEN (tunnel = 'yes' OR tunnel = 'building_passage' OR covered = 'yes') THEN 'yes' ELSE 'no' END AS tunnel,
     construction,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     CASE
       WHEN oneway IN ('yes', '-1') THEN oneway
       WHEN junction IN ('roundabout') AND (oneway IS NULL OR NOT oneway IN ('no', 'reversible')) THEN 'yes'
@@ -29541,7 +29541,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
        <Parameter name="table"><![CDATA[(SELECT
     way,
     highway,
-    name
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name
   FROM planet_osm_line
   WHERE highway IN ('bridleway', 'footway', 'cycleway', 'path', 'track', 'steps')
     AND name IS NOT NULL
@@ -29788,7 +29788,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
       'boundary_' || CASE WHEN boundary IN ('national_park') THEN boundary ELSE NULL END,
       'leisure_' || CASE WHEN leisure IN ('nature_reserve') THEN leisure ELSE NULL END
     ) AS feature,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     CASE WHEN building = 'no' OR building IS NULL THEN 'no' ELSE 'yes' END AS is_building -- always no with the where conditions
   FROM planet_osm_polygon
   WHERE (landuse IN ('forest', 'military')
@@ -33191,7 +33191,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
       'tourism_' || CASE WHEN tourism IN ('viewpoint', 'attraction') THEN tourism ELSE NULL END
     ) AS feature,
     access,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     tags->'operator' as operator,
     ref,
     way_area,
@@ -33274,7 +33274,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
     NULL as way_pixels,
     COALESCE('man_made_' || man_made, 'waterway_' || waterway, 'natural_' || "natural") AS feature,
     access,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     tags->'operator' as operator,
     ref,
     NULL AS way_area,
@@ -36682,7 +36682,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
           'historic_' || CASE WHEN historic IN ('wayside_cross') THEN historic ELSE NULL END
         ) AS feature,
         access,
-        name,
+        COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
         CASE
           WHEN "natural" IN ('peak', 'volcano', 'saddle') OR tourism = 'alpine_hut' OR amenity = 'shelter' THEN
             CASE
@@ -36748,7 +36748,7 @@ WHERE railway IN ('station', 'halt', 'tram_stop')
        <Parameter name="geometry_field"><![CDATA[way]]></Parameter>
        <Parameter name="extent"><![CDATA[-20037508,-20037508,20037508,20037508]]></Parameter>
        <Parameter name="table"><![CDATA[(SELECT
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     way,
     way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
   FROM planet_osm_polygon
@@ -36912,7 +36912,7 @@ SELECT
     way,
     waterway,
     lock,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     tags->'intermittent' as intermittent,
     CASE WHEN tunnel IN ('yes', 'culvert') THEN 'yes' ELSE 'no' END AS int_tunnel
   FROM planet_osm_line
@@ -36942,7 +36942,7 @@ SELECT
        <Parameter name="extent"><![CDATA[-20037508,-20037508,20037508,20037508]]></Parameter>
        <Parameter name="table"><![CDATA[(SELECT
     way,
-    name
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name
   FROM planet_osm_line
   WHERE route = 'ferry'
     AND name IS NOT NULL
@@ -36968,7 +36968,7 @@ SELECT
        <Parameter name="extent"><![CDATA[-20037508,-20037508,20037508,20037508]]></Parameter>
        <Parameter name="table"><![CDATA[(SELECT
     way,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     admin_level
   FROM planet_osm_polygon
   WHERE boundary = 'administrative'
@@ -36998,7 +36998,7 @@ SELECT
        <Parameter name="extent"><![CDATA[-20037508,-20037508,20037508,20037508]]></Parameter>
        <Parameter name="table"><![CDATA[(SELECT
     way,
-    name,
+    COALESCE(tags->'name:pa',tags->'name:hi',name) as name,
     way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
   FROM planet_osm_polygon
   WHERE (boundary = 'national_park' OR leisure = 'nature_reserve')
