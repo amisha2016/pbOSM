@@ -6,7 +6,6 @@ Installation
 2. Give path of style.xml fie to render.conf file.
 3. Browse to the beautiful map. 
 
-getxml.py
 
 Style.xml file is using gis database name. If you have database with other name just run the script getxml.py.
 
