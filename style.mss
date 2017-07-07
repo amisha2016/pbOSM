@@ -1,5 +1,5 @@
 Map {
-  background-color: @water-color;
+  background-color: #DDD6B7;
 }
 
 @water-color: #b5d0d0;
