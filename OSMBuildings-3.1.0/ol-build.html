@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+    <title>OSM Local Tiles</title>
+	<script type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <!-- bring in the OpenLayers javascript library
+         (here we bring it from the remote site, but you could
+         easily serve up this javascript yourself) -->
+    <script src="OpenLayers.js"></script>
+ 
+    <!-- bring in the OpenStreetMap OpenLayers layers.
+         Using this hosted file will make sure we are kept up
+         to date with any necessary changes -->
+    <script src="OpenStreetMap.js"></script>
+    <script type="text/javascript">
+//	alert("something"); 
+        window.addEventListener("keydown", onkeypress, false);
+        function onkeypress(key){
+                let lon = parseFloat(sessionStorage.getItem("lon"));
+                let lat = parseFloat(sessionStorage.getItem("lat"));
+                let y = parseFloat(sessionStorage.getItem("zoom"));
+alert(y);
+                let h = 51.2/Math.pow(2,(y-1));
+            if(key.keyCode == "37"){                                                          //left
+                lon = lon - h;
+                sessionStorage.setItem("lon", lon);
+                var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+            }
+             else if(key.keyCode == "38"){                                                      //up
+                lat = lat + h;
+                sessionStorage.setItem("lat", lat);
+                var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+            }
+             else if(key.keyCode == "39"){                                                         //right
+                lon = lon + h;
+                sessionStorage.setItem("lon", lon);
+                var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+            }
+             else if(key.keyCode == "40"){                                                        //down
+                lat = lat - h;
+                sessionStorage.setItem("lat", lat);
+                var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+            }
+            map.setCenter (lonLat,y);
+        }
+            
+    </script>
+ 
+    <script type="text/javascript">
+//        var lat=sessionStorage.getItem("lat");
+    //    var lon=sessionStorage.getItem("lon");
+  //     var zoom=sessionStorage.getItem("zoom");
+var lat=22.83;
+        var lon=79.66;
+       var zoom=5;
+      
+
+  var map; //complex object of type OpenLayers.Map
+ 
+        //Initialise the 'map' object
+        function init() {
+ 
+            map = new OpenLayers.Map ("map", {
+                controls:[
+                    new OpenLayers.Control.Navigation(),
+                    new OpenLayers.Control.PanZoomBar(),
+                 new OpenLayers.Control.Permalink(),
+                    new OpenLayers.Control.ScaleLine({geodesic: true}),
+                    new OpenLayers.Control.Permalink('permalink'),
+                    new OpenLayers.Control.MousePosition(),                    
+                    new OpenLayers.Control.Attribution()],
+                maxExtent: new OpenLayers.Bounds(30.7271,75.5248,31.0912,76.1778),
+                maxResolution: 156543.0339,
+                numZoomLevels: 20,
+                units: 'm',
+                projection: new OpenLayers.Projection("EPSG:900913"),
+                displayProjection: new OpenLayers.Projection("EPSG:4326")
+            } );
+ 
+            // This is the layer that uses the locally stored tiles
+		    var newLayer = new OpenLayers.Layer.OSM("Local Tiles", "../../pb_osm/${z}/${x}/${y}.png", {numZoomLevels: 20});
+
+            map.addLayer(newLayer);
+
+var pois = new OpenLayers.Layer.Text( "My Points",
+                    { location:"textfiles/textfile.txt",
+                      projection: map.displayProjection
+                    });
+    map.addLayer(pois);
+
+var pois = new OpenLayers.Layer.Text( "Cash Available",
+                    { location:"textfiles/atm1.txt",
+                      projection: map.displayProjection
+                    });
+    map.addLayer(pois);
+
+
+var helo = new OpenLayers.Layer.Text( "coord",
+                    { location:"textfiles/circle1.txt",
+                      projection: map.displayProjection
+                    });
+    map.addLayer(helo);
+
+
+            layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
+            map.addLayer(layerMapnik);
+
+// This is the end of the layer
+ 
+            var switcherControl = new OpenLayers.Control.LayerSwitcher();
+            map.addControl(switcherControl);
+            switcherControl.maximizeControl();
+ 
+            if( ! map.getCenter() ){
+                var lonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+                  map.setCenter (lonLat, zoom);
+            }
+        }
+ 
+    </script>
+</head>
+
+<!-- body.onload is called once the page is loaded (call the 'init' function) -->
+<body onload="init();">
+ 
+    <!-- define a DIV into which the map will appear. Make it take up the whole window -->
+    <div style="width:100%; height:100%" id="map"></div>
+
+ 
+</body>
+</html>
+
+
