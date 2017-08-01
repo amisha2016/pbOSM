@@ -88,13 +88,13 @@
     zoom: 16,
     state: true, // stores map position/rotation in url
     effects: ['shadows'],
-//    attribution: '© 3D <a href="https://osmbuildings.org/copyright/">OSM Buildings</a>'
+    attribution: '© 3D <a href="https://osmbuildings.org/copyright/">OSM Buildings</a>'
   }).appendTo('map');
 
   osmb.addMapTiles(
-    '../pb_osm/{z}/{x}/{y}.png',
+    'https://{s}.tiles.mapbox.com/v3/osmbuildings.kbpalbpk/{z}/{x}/{y}.png',
     {
- //     attribution: '© Data <a href="https://openstreetmap.org/copyright/">OpenStreetMap</a> · © Map <a href="https://mapbox.com/">Mapbox</a>'
+      attribution: '© Data <a href="https://openstreetmap.org/copyright/">OpenStreetMap</a> · © Map <a href="https://mapbox.com/">Mapbox</a>'
     }
   );
 
