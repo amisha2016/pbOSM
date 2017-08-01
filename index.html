@@ -1,0 +1,200 @@
+<html lang="en">
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<head>
+<title>GNDEC Map</title>
+<link rel="stylesheet" type="text/css" href="leaflet-3DMap/leaflet.css"/>
+<script type="text/javascript" src="leaflet-3DMap/leaflet.js"></script>
+
+<!--script type="text/javascript" src="leaflet-3DMap/OSMBuildings-Leaflet.js"></script-->
+  <!-- Load geocoding plugin after Leaflet -->  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.2/leaflet-geocoder-mapzen.css">  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.2/leaflet-geocoder-mapzen.min.js"></script>
+<!--link rel="stylesheet" href="https://lab.gdy.club/search/examples/assets/examples.css"-->
+<!-- Latest compiled and minified CSS -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style>
+   #map{width:100%;height:100%}
+
+</style>
+</head>
+
+<body>
+ <div>              <button><a href="https://lab.gdy.club/dist/">
+                           3D buildings with rotation
+                                </a></button>
+            <button><a href="https://lab.gdy.club/Animation-in-maps/">
+                                                   Animation
+                                                        </a></button>
+			
+
+                                </div>
+
+
+<div id="map"></div> 
+<script>
+    var map = L.map('map').setView([30.8606,75.8617],17);
+    L.tileLayer('https://lab.gdy.club/osm_tiles/{z}/{x}/{y}.png',{maxZoom:20}).addTo(map);
+//new OSMBuildings(map).load();
+/*
+
+L.Control.Button = L.Control.extend({
+  options: {
+    position: 'bottomleft'
+  },
+  initialize: function (options) {
+    this._button = {};
+    this.setButton(options);
+  },
+
+  onAdd: function (map) {
+    this._map = map;
+    var container = L.DomUtil.create('div', 'leaflet-control-button');
+	
+    this._container = container;
+    
+    this._update();
+    return this._container;
+  },
+
+  onRemove: function (map) {
+  },
+
+  setButton: function (options) {
+    var button = {
+      'text': options.text,                 //string
+      'iconUrl': options.iconUrl,           //string
+      'onClick': options.onClick,           //callback function
+      'hideText': !!options.hideText,         //forced bool
+      'maxWidth': options.maxWidth || 70,     //number
+      'doToggle': options.toggle,			//bool
+      'toggleStatus': false					//bool
+    };
+
+    this._button = button;
+    this._update();
+  },
+  
+  getText: function () {
+  	return this._button.text;
+  },
+  
+  getIconUrl: function () {
+  	return this._button.iconUrl;
+  },
+  
+  destroy: function () {
+  	this._button = {};
+  	this._update();
+  },
+  
+  toggle: function (e) {
+  	if(typeof e === 'boolean'){
+  		this._button.toggleStatus = e;
+  	}
+  	else{
+  		this._button.toggleStatus = !this._button.toggleStatus;
+  	}
+  	this._update();
+  },
+  
+  _update: function () {
+    if (!this._map) {
+      return;
+    }
+
+    this._container.innerHTML = '';
+    this._makeButton(this._button);
+ 
+  },
+
+  _makeButton: function (button) {
+    var newButton = L.DomUtil.create('div', 'leaflet-buttons-control-button', this._container);
+    if(button.toggleStatus)
+    	L.DomUtil.addClass(newButton,'leaflet-buttons-control-toggleon');
+        
+    var image = L.DomUtil.create('img', 'leaflet-buttons-control-img', newButton);
+    image.setAttribute('src',button.iconUrl);
+    
+    if(button.text !== ''){
+
+      L.DomUtil.create('br','',newButton);  //there must be a better way
+
+      var span = L.DomUtil.create('span', 'leaflet-buttons-control-text', newButton);
+      var text = document.createTextNode(button.text);  //is there an L.DomUtil for this?
+      span.appendChild(text);
+      if(button.hideText)
+        L.DomUtil.addClass(span,'leaflet-buttons-control-text-hide');
+    }
+
+    L.DomEvent
+      .addListener(newButton, 'click', L.DomEvent.stop)
+      .addListener(newButton, 'click', button.onClick,this)
+      .addListener(newButton, 'click', this._clicked,this);
+    L.DomEvent.disableClickPropagation(newButton);
+    return newButton;
+
+  },
+  
+  _clicked: function () {  //'this' refers to button
+  	if(this._button.doToggle){
+  		if(this._button.toggleStatus) {	//currently true, remove class
+  			L.DomUtil.removeClass(this._container.childNodes[0],'leaflet-buttons-control-toggleon');
+  		}
+  		else{
+  			L.DomUtil.addClass(this._container.childNodes[0],'leaflet-buttons-control-toggleon');
+  		}
+  		this.toggle();
+  	}
+  	return;
+  }
+
+});
+/*
+if (map.getBounds().contains(layer.getLatLng()) && 
+    layer.zoomLevel <= map.getZoom(4) ) {
+    https://imgurnoor.gdy.club/dist/
+  }
+/*
+var geoJSON = {
+  "type": "FeatureCollection",
+  "features": [{
+    "type": "Feature",
+    "id": 134,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[
+        [30.8580759, 75.8605802],
+        [30.8582264, 75.8606044],
+        [30.8580808, 75.8601923],
+        [30.8582168, 75.86
+    "properties": {
+      "wallColor": "rgb(255,0,0)",
+      "roofColor": "rgb(255,128,0)",
+      "height": 500,
+      "minHeight": 0
+    }
+  }]
+};
+*/
+//new OSMBuildings(map).set(geoJSON);
+    // Add geocoding plugin
+    var options = {
+      expanded: true
+    }
+    var geocoder1 = L.control.geocoder('search-MKZrG6M', options).addTo(map);
+    // Increase the z-index on the first geocoder to make results overlap
+    // the second geocoder input box.
+    document.querySelectorAll('.leaflet-pelias-control')[0].style.zIndex = 811;
+
+ 
+</script>
+</body>
+
