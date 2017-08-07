@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+		<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+  		<title>View Animation</title>
+    		<link rel="stylesheet" href="https://openlayers.org/en/v4.2.0/css/ol.css" type="text/css">
+    		<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    		<script src="https://openlayers.org/en/v4.2.0/build/ol.js"></script>
+        	<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+        	<link rel="stylesheet" href="header.css" type="text/css">   
+
+   	</head>
+	<style>
+		#map {
+  			position: relative;
+			height:90%;
+			width:98%;
+		     }
+
+	</style>
+  	<body>
+
+		<div class="container">
+  			<div class="dropdown">
+    				<button class="dropbtn" onclick="myFunction()">Animations</button>
+    					<div class="dropdown-content" id="myDropdown">
+
+ 						<a id="rotate-left">Clockwise</a>
+ 						<a id="rotate-right">Anticlockwise</a>
+ 						<a id="pan-to-main_gate">Main Gate</a>
+ 						<a id="pan-to-boyshostel">Boys Hostel</a>
+						<a id="elastic-to-auditorium">Auditorium</a>
+						<a id="bounce-to-workshop">Workshop</a>
+						<a id="spin-to-mba_block">MBA Block</a>
+						<a id="fly-to-pg_block">PG Block</a>
+						<a id="pan-to-library">Library</a>
+						<a id="pan-to-sports">Sports</a></li>
+					</div>
+  			</div>
+  				<a  onclick=tour();>GNE Tour</a>
+				<a href="https://lab.gdy.club">Home</a>
+		</div>
+   		<div id="map" class="map"></div>
+
+ 		<script>
+      			var main_gate = ol.proj.fromLonLat([75.85956, 30.86063]);
+      			var boyshostel = ol.proj.fromLonLat([75.86399, 30.86001]);
+      			var auditorium = ol.proj.fromLonLat([75.86068, 30.85885]);
+      			var workshop = ol.proj.fromLonLat([75.86165, 30.85957]);
+      			var mba_block = ol.proj.fromLonLat([75.86015, 30.85990]);
+      			var pg_block = ol.proj.fromLonLat([75.86029, 30.86040]);
+      			var library = ol.proj.fromLonLat([75.86035, 30.85829]);
+      			var sports = ol.proj.fromLonLat([75.86356, 30.85878]);
+
+
+      			var view = new ol.View({
+        		center: mba_block,
+        		zoom: 19
+      			});
+
+      			var map = new ol.Map({
+        		target: 'map',
+        		layers: [
+        	  	new ol.layer.Tile({
+        	    	preload: 4,
+        	    	source: new ol.source.OSM({url: "../../osm_tiles/{z}/{x}/{y}.png"})
+        	  	})
+        		],
+			controls: ol.control.defaults({
+			        attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+				      
+				collapsible: false
+		                })
+		        }).extend([
+			new ol.control.ScaleLine()
+	 		]),
+        		// Improve user experience by loading tiles while animating. Will make
+        		// animations stutter on mobile or slow devices.
+        		loadTilesWhileAnimating: true,
+        		view: view
+      			});
+
+
+			function myFunction() {
+    			document.getElementById("myDropdown").classList.toggle("show");
+			}
+
+			// Close the dropdown if the user clicks outside of it
+			window.onclick = function(e) {
+  			if (!e.target.matches('.dropbtn')) {
+    			var myDropdown = document.getElementById("myDropdown");
+      			if (myDropdown.classList.contains('show')) {
+        		myDropdown.classList.remove('show');
+      			}
+  			}
+			}
+		</script>
+		<script src="animations.js"></script>
+		<script src="permanent_link.js"></script>
+	</body>
+</html>
