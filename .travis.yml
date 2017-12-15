@@ -1,1 +1,14 @@
 language: CartoCSS
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      dist: trusty
+      env: DIST="trusty"
+      sudo: required
+      cache: apt
+
+branches:
+  only:
+    - master
